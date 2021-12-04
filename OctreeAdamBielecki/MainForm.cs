@@ -31,8 +31,8 @@ namespace OctreeAdamBielecki
         {
             afterPictureBox.Image = bitmapColorReducer.ReduceBitmapAfterConstrution
                 (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
-            //alongPictureBox.Image = bitmapColorReducer.ReduceBitmapAlongConstrution
-            //    (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
+            alongPictureBox.Image = bitmapColorReducer.ReduceBitmapAlongConstrution
+                (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
         }
 
         private void chooseImageButton_Click(object sender, EventArgs e)

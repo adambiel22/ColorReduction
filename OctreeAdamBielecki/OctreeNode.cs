@@ -42,7 +42,7 @@ namespace OctreeAdamBielecki
             }
             if (this.ReferenceCounter - other.ReferenceCounter != 0)
             {
-                return this.ReferenceCounter - other.ReferenceCounter;
+                return other.ReferenceCounter - this.ReferenceCounter;
             }
             else if (this.Red - other.Red != 0)
             {
@@ -63,9 +63,9 @@ namespace OctreeAdamBielecki
         }
         public override string ToString()
         {
-            return $"[{Level}]({Convert.ToString(Red, 10)}, " +
-                $"{Convert.ToString(Green, 10)}, " +
-                $"{Convert.ToString(Blue, 10)})*{ReferenceCounter}";
+            return $"[{Level}]({Convert.ToString(Red, 2)}, " +
+                $"{Convert.ToString(Green, 2)}, " +
+                $"{Convert.ToString(Blue, 2)})*{ReferenceCounter}";
         }
         public int ChildrenNumber()
         {

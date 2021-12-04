@@ -10,15 +10,15 @@ namespace OctreeAdamBielecki
 {
     public class Octree : IColorReducer
     {
-        public SortedSet<OctreeNode>[] NodesOfLevel { get; private set; }
+        public List<OctreeNode>[] NodesOfLevel { get; private set; }
         public int ColorNumber { get; set; }
 
         public Octree()
         {
-            NodesOfLevel = new SortedSet<OctreeNode>[8];
+            NodesOfLevel = new List<OctreeNode>[8];
             for (int i = 0; i < 8; i++) 
             {
-                NodesOfLevel[i] = new SortedSet<OctreeNode>();
+                NodesOfLevel[i] = new List<OctreeNode>();
             }
             ColorNumber = 0;
         }
@@ -41,6 +41,7 @@ namespace OctreeAdamBielecki
             if (root == null)
             {
                 initializeRoot();
+                NodesOfLevel[0].Add(root);
             }
             OctreeNode currentOctreeNode = root;
             for (int level = 0; level < 8; level++) 
@@ -50,7 +51,7 @@ namespace OctreeAdamBielecki
                 {
                     Debug.WriteLine(this);
                 }
-                NodesOfLevel[level].Add(currentOctreeNode);
+                //NodesOfLevel[level].Add(currentOctreeNode);
                 //if (NodesOfLevel[1].Count > root.ChildrenNumber())
                 //{
                 //    Debug.WriteLine(this);
@@ -59,6 +60,10 @@ namespace OctreeAdamBielecki
                 if (currentOctreeNode.NextNodes[childIndex] == null)
                 {
                     currentOctreeNode.NextNodes[childIndex] = new OctreeNode(level + 1);
+                    if (level != 7)
+                    {
+                        NodesOfLevel[level + 1].Add(currentOctreeNode.NextNodes[childIndex]);
+                    } 
                     int mask = 0b11111111 >> (7 - level) << (7 - level);
                     currentOctreeNode.NextNodes[childIndex].Red = insertedColor.R & mask;
                     currentOctreeNode.NextNodes[childIndex].Green = insertedColor.G & mask;
@@ -81,20 +86,26 @@ namespace OctreeAdamBielecki
                 throw new ArgumentException("maxNumberOfColors must be >= 1");
             }
             int currentLevel = 7;
+            NodesOfLevel[currentLevel].Sort();
+            int currentMax = 0;
             while (currentLevel != 0 && ColorNumber > maxNumberOfColors)
             {
                 if (currentLevel == 2)
                 {
                     Debug.WriteLine(this);
                 }
-                while (NodesOfLevel[currentLevel].Count == 0)
+                while (currentMax == NodesOfLevel[currentLevel].Count)
                 {
                     currentLevel--;
+                    NodesOfLevel[currentLevel].Sort();
+                    currentMax = 0;
                 }
-                OctreeNode maxNode = NodesOfLevel[currentLevel].Max();
+                OctreeNode maxNode = NodesOfLevel[currentLevel][currentMax];
+                currentMax++;
                 ReduceNode(maxNode);
                 Debug.WriteLine(this);
             }
+
         }
 
         public override string ToString()
@@ -146,14 +157,13 @@ namespace OctreeAdamBielecki
                     reducedNode.Blue += reducedNode.NextNodes[i].Blue;
                     if (reducedNode.Level != 7)
                     {
-                        //NodesOfLevel[reducedNode.Level + 1].Remove(reducedNode.NextNodes[i]);
-                        //NodesOfLevel[reducedNode.Level].Remove(reducedNode);
+                        NodesOfLevel[reducedNode.Level + 1].Remove(reducedNode.NextNodes[i]);
                     }
                     reducedNode.NextNodes[i] = null;
                     ColorNumber--;
                 }
             }
-            NodesOfLevel[reducedNode.Level].Remove(reducedNode);
+            //NodesOfLevel[reducedNode.Level].RemoveAt(0);
             ColorNumber++;
             reducedNode.Red /= childrenCounter;
             reducedNode.Green /= childrenCounter;

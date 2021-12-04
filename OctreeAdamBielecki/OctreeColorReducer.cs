@@ -69,6 +69,7 @@ namespace OctreeAdamBielecki
                     if (colorReducer.ColorNumber > colorNumber)
                     {
                         colorReducer.Reduce(colorNumber);
+                        Debug.WriteLine(colorReducer);
                     }
                 }
             }
