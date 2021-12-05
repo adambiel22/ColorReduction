@@ -46,7 +46,11 @@ namespace OctreeAdamBielecki
             OctreeNode currentOctreeNode = root;
             for (int level = 0; level < 8; level++) 
             {
-                currentOctreeNode.ReferenceCounter++;
+                //currentOctreeNode.ReferenceCounter++;
+                if (currentOctreeNode.IsLeaf())
+                {
+                    break;
+                }
                 if (currentOctreeNode.Red == 0 && currentOctreeNode.Green == 128 && currentOctreeNode.Blue == 128 && currentOctreeNode.ReferenceCounter == 6)
                 {
                     Debug.WriteLine(this);
@@ -56,6 +60,7 @@ namespace OctreeAdamBielecki
                 //{
                 //    Debug.WriteLine(this);
                 //}
+
                 int childIndex = computeChildIndex(insertedColor, level);
                 if (currentOctreeNode.NextNodes[childIndex] == null)
                 {
@@ -102,7 +107,10 @@ namespace OctreeAdamBielecki
                 }
                 OctreeNode maxNode = NodesOfLevel[currentLevel][currentMax];
                 currentMax++;
-                ReduceNode(maxNode);
+                if (!maxNode.IsLeaf())
+                {
+                    ReduceNode(maxNode);
+                }
                 Debug.WriteLine(this);
             }
 
@@ -152,9 +160,11 @@ namespace OctreeAdamBielecki
                 if(reducedNode.NextNodes[i] != null)
                 {
                     childrenCounter++;
+                    //to ma być średnia ważona!
                     reducedNode.Red += reducedNode.NextNodes[i].Red;
                     reducedNode.Green += reducedNode.NextNodes[i].Green;
                     reducedNode.Blue += reducedNode.NextNodes[i].Blue;
+                    reducedNode.ReferenceCounter += reducedNode.NextNodes[i].ReferenceCounter;
                     if (reducedNode.Level != 7)
                     {
                         NodesOfLevel[reducedNode.Level + 1].Remove(reducedNode.NextNodes[i]);

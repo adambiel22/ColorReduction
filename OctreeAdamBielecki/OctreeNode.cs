@@ -26,7 +26,8 @@ namespace OctreeAdamBielecki
 
         public bool IsLeaf()
         {
-            return NextNodes.All((nextNode) => nextNode == null);
+            //return NextNodes.All((nextNode) => nextNode == null);
+            return ReferenceCounter > 0;
         }
 
         public bool IsParentOfLeaves()
@@ -40,9 +41,9 @@ namespace OctreeAdamBielecki
             {
                 Debug.WriteLine(this);
             }
-            if (this.ReferenceCounter - other.ReferenceCounter != 0)
+            if (other.ChildrenReferenceCounter() - this.ChildrenReferenceCounter() != 0)
             {
-                return other.ReferenceCounter - this.ReferenceCounter;
+                return other.ChildrenReferenceCounter() - this.ChildrenReferenceCounter();
             }
             else if (this.Red - other.Red != 0)
             {
@@ -56,6 +57,12 @@ namespace OctreeAdamBielecki
             {
                 return this.Blue - other.Blue;
             }
+        }
+
+        public int ChildrenReferenceCounter()
+        {
+            return NextNodes.Aggregate(0, (total, next) =>
+                next == null ? total : total + next.ReferenceCounter);
         }
         public Color ToColor()
         {

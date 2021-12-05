@@ -60,11 +60,12 @@ namespace OctreeAdamBielecki
             BitmapManager reducedBitmapManager = new LockBitmap();
             reducedBitmapManager.GetAccess(reducedBitmap);
             IColorReducer colorReducer = new Octree();
-
+            int count = 1;
             for (int y = 0; y < bitmap.Height; y++)
             {
                 for (int x = 0; x < bitmap.Width; x++)
                 {
+                    Debug.WriteLine(count++);
                     colorReducer.AddColor(bitmapManager.GetPixel(x, y));
                     if (colorReducer.ColorNumber > colorNumber)
                     {
