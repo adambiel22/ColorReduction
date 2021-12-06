@@ -161,9 +161,9 @@ namespace OctreeAdamBielecki
                 {
                     childrenCounter++;
                     //to ma być średnia ważona!
-                    reducedNode.Red += reducedNode.NextNodes[i].Red;
-                    reducedNode.Green += reducedNode.NextNodes[i].Green;
-                    reducedNode.Blue += reducedNode.NextNodes[i].Blue;
+                    reducedNode.Red += reducedNode.NextNodes[i].Red * reducedNode.NextNodes[i].ReferenceCounter;
+                    reducedNode.Green += reducedNode.NextNodes[i].Green * reducedNode.NextNodes[i].ReferenceCounter; 
+                    reducedNode.Blue += reducedNode.NextNodes[i].Blue * reducedNode.NextNodes[i].ReferenceCounter;
                     reducedNode.ReferenceCounter += reducedNode.NextNodes[i].ReferenceCounter;
                     if (reducedNode.Level != 7)
                     {
@@ -175,9 +175,9 @@ namespace OctreeAdamBielecki
             }
             //NodesOfLevel[reducedNode.Level].RemoveAt(0);
             ColorNumber++;
-            reducedNode.Red /= childrenCounter;
-            reducedNode.Green /= childrenCounter;
-            reducedNode.Blue /= childrenCounter;
+            reducedNode.Red /= reducedNode.ReferenceCounter;
+            reducedNode.Green /= reducedNode.ReferenceCounter;
+            reducedNode.Blue /= reducedNode.ReferenceCounter;
         }
 
         private void initializeRoot()

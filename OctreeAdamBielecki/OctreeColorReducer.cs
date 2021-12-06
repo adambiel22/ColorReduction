@@ -8,86 +8,37 @@ using System.Diagnostics;
 
 namespace OctreeAdamBielecki
 {
-    public class OctreeColorReducer
+    public abstract class OctreeColorReducer
     {
-        public IColorReducer colorReducer { get; set; }
-        public OctreeColorReducer(IColorReducer colorReducer)
+        abstract protected Octree ConstructAndReduceOctree(BitmapManager bitmapManager, int colorNumber);
+        public Bitmap ReduceBitmap(Bitmap bitmap, int colorNumber)
         {
-            //this.colorReducer = colorReducer;
-        }
-
-        public Bitmap ReduceBitmapAfterConstrution(Bitmap bitmap, int colorNumber)
-        {
-            Bitmap reducedBitmap = new Bitmap(bitmap.Width, bitmap.Height);
             BitmapManager bitmapManager = new LockBitmap();
             bitmapManager.GetAccess(bitmap);
+
+            Bitmap reducedBitmap = new Bitmap(bitmap.Width, bitmap.Height);
             BitmapManager reducedBitmapManager = new LockBitmap();
             reducedBitmapManager.GetAccess(reducedBitmap);
-            IColorReducer colorReducer = new Octree();
 
-            for (int y = 0; y < bitmap.Height; y++)
-            {
-                for (int x = 0; x < bitmap.Width; x++)
-                {
-                    Debug.WriteLine($"{x}, {y}");
-                    colorReducer.AddColor(bitmapManager.GetPixel(x, y));
-                    Debug.WriteLine(colorReducer);
-                }
-            }
+            Octree octree = ConstructAndReduceOctree(bitmapManager, colorNumber);
 
-            colorReducer.Reduce(colorNumber);
-
-            for (int y = 0; y < bitmap.Height; y++)
-            {
-                for (int x = 0; x < bitmap.Width; x++)
-                {
-                    reducedBitmapManager.SetPixel(x, y,
-                        colorReducer.FindColor(bitmapManager.GetPixel(x, y)));
-                }
-            }
+            fillReducedBitmap(octree, bitmapManager, reducedBitmapManager); ;
 
             bitmapManager.Release();
             reducedBitmapManager.Release();
-
             return reducedBitmap;
         }
 
-        public Bitmap ReduceBitmapAlongConstrution(Bitmap bitmap, int colorNumber)
+        private void fillReducedBitmap(Octree octree, BitmapManager bitmapManager, BitmapManager reducedBitmapManager)
         {
-            Bitmap reducedBitmap = new Bitmap(bitmap.Width, bitmap.Height);
-            BitmapManager bitmapManager = new LockBitmap();
-            bitmapManager.GetAccess(bitmap);
-            BitmapManager reducedBitmapManager = new LockBitmap();
-            reducedBitmapManager.GetAccess(reducedBitmap);
-            IColorReducer colorReducer = new Octree();
-            int count = 1;
-            for (int y = 0; y < bitmap.Height; y++)
+            for (int y = 0; y < bitmapManager.Height; y++)
             {
-                for (int x = 0; x < bitmap.Width; x++)
-                {
-                    Debug.WriteLine(count++);
-                    colorReducer.AddColor(bitmapManager.GetPixel(x, y));
-                    if (colorReducer.ColorNumber > colorNumber)
-                    {
-                        colorReducer.Reduce(colorNumber);
-                        Debug.WriteLine(colorReducer);
-                    }
-                }
-            }
-
-            for (int y = 0; y < bitmap.Height; y++)
-            {
-                for (int x = 0; x < bitmap.Width; x++)
+                for (int x = 0; x < bitmapManager.Width; x++)
                 {
                     reducedBitmapManager.SetPixel(x, y,
-                        colorReducer.FindColor(bitmapManager.GetPixel(x, y)));
+                        octree.FindColor(bitmapManager.GetPixel(x, y)));
                 }
             }
-
-            bitmapManager.Release();
-            reducedBitmapManager.Release();
-
-            return reducedBitmap;
         }
     }
 }

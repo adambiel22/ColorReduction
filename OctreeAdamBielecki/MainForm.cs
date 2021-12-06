@@ -14,12 +14,11 @@ namespace OctreeAdamBielecki
 {
     public partial class MainForm : Form
     {
-        OctreeColorReducer bitmapColorReducer;
 
         public MainForm()
         {
             InitializeComponent();
-            bitmapColorReducer = new OctreeColorReducer(new Octree());
+            numberColorLabel.Text = colorNumberTrackBar.Value.ToString();
         }
 
         private void colorNumberTrackBar_Scroll(object sender, EventArgs e)
@@ -29,9 +28,12 @@ namespace OctreeAdamBielecki
 
         private void reduceButton_Click(object sender, EventArgs e)
         {
-            afterPictureBox.Image = bitmapColorReducer.ReduceBitmapAfterConstrution
+            OctreeColorReducer octreeColorReducerAfterConstruction = new OctreeColorReducerAfterConstruction();
+            afterPictureBox.Image = octreeColorReducerAfterConstruction.ReduceBitmap
                 (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
-            alongPictureBox.Image = bitmapColorReducer.ReduceBitmapAlongConstrution
+
+            OctreeColorReducer octreeColorReducerAlongConstruction = new OctreeReducerAlongConstruction();
+            alongPictureBox.Image = octreeColorReducerAlongConstruction.ReduceBitmap
                 (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
         }
 
@@ -48,10 +50,6 @@ namespace OctreeAdamBielecki
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 trueColorPictureBox.Image = new Bitmap(openFileDialog.FileName);
-                //afterPictureBox.Image = bitmapColorReducer.ReduceBitmapAfterConstrution
-                //    (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
-                //alongPictureBox.Image = bitmapColorReducer.ReduceBitmapAlongConstrution
-                //    (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
             }
 
         }
