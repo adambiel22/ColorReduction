@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Diagnostics;
 
 namespace OctreeAdamBielecki
 {
-    public class Octree : IColorReducer
+    public class Octree
     {
         public List<OctreeNode>[] NodesOfLevel { get; private set; }
         public int ColorNumber { get; set; }
-
+        
+        private OctreeNode root;
         public Octree()
         {
             NodesOfLevel = new List<OctreeNode>[8];
@@ -70,7 +68,6 @@ namespace OctreeAdamBielecki
 
         public void Reduce(int maxNumberOfColors)
         {
-            //Debug.WriteLine(this);
             if (maxNumberOfColors <= 0)
             {
                 throw new ArgumentException("maxNumberOfColors must be >= 1");
@@ -92,7 +89,6 @@ namespace OctreeAdamBielecki
                 {
                     ReduceNode(maxNode);
                 }
-                //Debug.WriteLine(this);
             }
 
         }
@@ -153,7 +149,6 @@ namespace OctreeAdamBielecki
                     ColorNumber--;
                 }
             }
-            //NodesOfLevel[reducedNode.Level].RemoveAt(0);
             ColorNumber++;
             reducedNode.Red /= reducedNode.ReferenceCounter;
             reducedNode.Green /= reducedNode.ReferenceCounter;
@@ -174,7 +169,5 @@ namespace OctreeAdamBielecki
             if ((color.B & mask) != 0) index |= 0b001;
             return index;
         }
-
-        public OctreeNode root;
     }
 }
