@@ -5,11 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace OctreeAdamBielecki
 {
     public abstract class OctreeColorReducer
     {
+        protected ProgressBar progressBar;
+        public OctreeColorReducer(ProgressBar progressBar)
+        {
+            this.progressBar = progressBar;
+        }
         abstract protected Octree ConstructAndReduceOctree(BitmapManager bitmapManager, int colorNumber);
         public Bitmap ReduceBitmap(Bitmap bitmap, int colorNumber)
         {
@@ -20,8 +26,12 @@ namespace OctreeAdamBielecki
             BitmapManager reducedBitmapManager = new LockBitmap();
             reducedBitmapManager.GetAccess(reducedBitmap);
 
+            progressBar.Maximum = 2 * bitmapManager.Height;
+            progressBar.Value = 0;
+            progressBar.Step = 1;
             Octree octree = ConstructAndReduceOctree(bitmapManager, colorNumber);
 
+            progressBar.Value = bitmapManager.Height;
             fillReducedBitmap(octree, bitmapManager, reducedBitmapManager); ;
 
             bitmapManager.Release();
@@ -38,6 +48,7 @@ namespace OctreeAdamBielecki
                     reducedBitmapManager.SetPixel(x, y,
                         octree.FindColor(bitmapManager.GetPixel(x, y)));
                 }
+                progressBar.PerformStep();
             }
         }
     }

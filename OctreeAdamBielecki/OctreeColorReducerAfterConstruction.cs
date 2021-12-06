@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OctreeAdamBielecki
 {
     class OctreeColorReducerAfterConstruction : OctreeColorReducer
     {
-        public override Octree ConstructAndReduceOctree(BitmapManager bitmapManager, int colorNumber)
+        public OctreeColorReducerAfterConstruction(ProgressBar progressBar) : base(progressBar)
+        { }
+
+        protected override Octree ConstructAndReduceOctree(BitmapManager bitmapManager, int colorNumber)
         {
             Octree colorReducer = new Octree();
             for (int y = 0; y < bitmapManager.Height; y++)
@@ -17,6 +21,7 @@ namespace OctreeAdamBielecki
                 {
                     colorReducer.AddColor(bitmapManager.GetPixel(x, y));
                 }
+                progressBar.PerformStep();
             }
             colorReducer.Reduce(colorNumber);
             return colorReducer;

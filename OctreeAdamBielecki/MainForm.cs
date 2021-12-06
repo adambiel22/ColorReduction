@@ -19,6 +19,7 @@ namespace OctreeAdamBielecki
         {
             InitializeComponent();
             numberColorLabel.Text = colorNumberTrackBar.Value.ToString();
+            trueColorPictureBox.Image = Properties.Resources.Flower;
         }
 
         private void colorNumberTrackBar_Scroll(object sender, EventArgs e)
@@ -28,11 +29,18 @@ namespace OctreeAdamBielecki
 
         private void reduceButton_Click(object sender, EventArgs e)
         {
-            OctreeColorReducer octreeColorReducerAfterConstruction = new OctreeColorReducerAfterConstruction();
+            afterProgressBar.Value = 0;
+            alongProgressBar.Value = 0;
+            afterPictureBox.Image = null;
+            alongPictureBox.Image = null;
+
+            OctreeColorReducer octreeColorReducerAfterConstruction =
+                new OctreeColorReducerAfterConstruction(afterProgressBar);
             afterPictureBox.Image = octreeColorReducerAfterConstruction.ReduceBitmap
                 (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
 
-            OctreeColorReducer octreeColorReducerAlongConstruction = new OctreeReducerAlongConstruction();
+            OctreeColorReducer octreeColorReducerAlongConstruction =
+                new OctreeColorReducerAlongConstruction(alongProgressBar);
             alongPictureBox.Image = octreeColorReducerAlongConstruction.ReduceBitmap
                 (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
         }
@@ -46,31 +54,37 @@ namespace OctreeAdamBielecki
                     Directory.GetParent(
                         Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName
                     , "Resources");
+            openFileDialog.Filter =
+                "Image Files(*.png,*.jpg,*.bmp,*.gif)|*.png;*.jpg;*.bmp;*.gif|All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 trueColorPictureBox.Image = new Bitmap(openFileDialog.FileName);
             }
-
         }
 
         private void afterSaveButton_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                afterPictureBox.Image.Save(saveFileDialog.FileName);
-            }
+            saveImage(afterPictureBox.Image);
         }
 
         private void alongSaveButton_Click(object sender, EventArgs e)
         {
+            saveImage(alongPictureBox.Image);
+        }
+
+        private void saveImage(Image image)
+        {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.DefaultExt = "png";
+            saveFileDialog.Filter =
+                "Image Files(*.png)|*.png|All files (*.*)|*.*";
+            saveFileDialog.FileName = "reduced_picture";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                alongPictureBox.Image.Save(saveFileDialog.FileName);
+                image.Save(saveFileDialog.FileName);
             }
         }
     }

@@ -37,10 +37,6 @@ namespace OctreeAdamBielecki
 
         public int CompareTo(OctreeNode other)
         {
-            if (Red == 0 && Green == 128 && Blue == 128 && ReferenceCounter == 6)
-            {
-                Debug.WriteLine(this);
-            }
             if (other.ChildrenReferenceCounter() - this.ChildrenReferenceCounter() != 0)
             {
                 return other.ChildrenReferenceCounter() - this.ChildrenReferenceCounter();

@@ -44,23 +44,8 @@ namespace OctreeAdamBielecki
                 NodesOfLevel[0].Add(root);
             }
             OctreeNode currentOctreeNode = root;
-            for (int level = 0; level < 8; level++) 
+            for (int level = 0; level < 8 && !currentOctreeNode.IsLeaf(); level++) 
             {
-                //currentOctreeNode.ReferenceCounter++;
-                if (currentOctreeNode.IsLeaf())
-                {
-                    break;
-                }
-                if (currentOctreeNode.Red == 0 && currentOctreeNode.Green == 128 && currentOctreeNode.Blue == 128 && currentOctreeNode.ReferenceCounter == 6)
-                {
-                    Debug.WriteLine(this);
-                }
-                //NodesOfLevel[level].Add(currentOctreeNode);
-                //if (NodesOfLevel[1].Count > root.ChildrenNumber())
-                //{
-                //    Debug.WriteLine(this);
-                //}
-
                 int childIndex = computeChildIndex(insertedColor, level);
                 if (currentOctreeNode.NextNodes[childIndex] == null)
                 {
@@ -85,7 +70,7 @@ namespace OctreeAdamBielecki
 
         public void Reduce(int maxNumberOfColors)
         {
-            Debug.WriteLine(this);
+            //Debug.WriteLine(this);
             if (maxNumberOfColors <= 0)
             {
                 throw new ArgumentException("maxNumberOfColors must be >= 1");
@@ -95,10 +80,6 @@ namespace OctreeAdamBielecki
             int currentMax = 0;
             while (currentLevel != 0 && ColorNumber > maxNumberOfColors)
             {
-                if (currentLevel == 2)
-                {
-                    Debug.WriteLine(this);
-                }
                 while (currentMax == NodesOfLevel[currentLevel].Count)
                 {
                     currentLevel--;
@@ -111,7 +92,7 @@ namespace OctreeAdamBielecki
                 {
                     ReduceNode(maxNode);
                 }
-                Debug.WriteLine(this);
+                //Debug.WriteLine(this);
             }
 
         }
@@ -160,7 +141,6 @@ namespace OctreeAdamBielecki
                 if(reducedNode.NextNodes[i] != null)
                 {
                     childrenCounter++;
-                    //to ma być średnia ważona!
                     reducedNode.Red += reducedNode.NextNodes[i].Red * reducedNode.NextNodes[i].ReferenceCounter;
                     reducedNode.Green += reducedNode.NextNodes[i].Green * reducedNode.NextNodes[i].ReferenceCounter; 
                     reducedNode.Blue += reducedNode.NextNodes[i].Blue * reducedNode.NextNodes[i].ReferenceCounter;
