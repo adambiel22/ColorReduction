@@ -17,7 +17,7 @@ namespace OctreeAdamBielecki
             this.progressBar = progressBar;
         }
         abstract protected Octree ConstructAndReduceOctree(BitmapManager bitmapManager, int colorNumber);
-        public Bitmap ReduceBitmap(Bitmap bitmap, int colorNumber)
+        public async Task<Bitmap> ReduceBitmap(Bitmap bitmap, int colorNumber)
         {
             BitmapManager bitmapManager = new LockBitmap();
             bitmapManager.GetAccess(bitmap);
@@ -29,10 +29,16 @@ namespace OctreeAdamBielecki
             progressBar.Maximum = 2 * bitmapManager.Height;
             progressBar.Value = 0;
             progressBar.Step = 1;
-            Octree octree = ConstructAndReduceOctree(bitmapManager, colorNumber);
+
+            Octree octree = await Task.Run(() =>
+            {
+                return ConstructAndReduceOctree(bitmapManager, colorNumber);
+            });
 
             progressBar.Value = bitmapManager.Height;
-            fillReducedBitmap(octree, bitmapManager, reducedBitmapManager); ;
+
+            await Task.Run(() =>
+                fillReducedBitmap(octree, bitmapManager, reducedBitmapManager));
 
             bitmapManager.Release();
             reducedBitmapManager.Release();

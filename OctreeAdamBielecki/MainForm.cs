@@ -25,22 +25,33 @@ namespace OctreeAdamBielecki
             trueColorPictureBox.Image = Properties.Resources.Flower;
         }
 
-        private void reduceButton_Click(object sender, EventArgs e)
+        private async void reduceButton_Click(object sender, EventArgs e)
         {
             afterProgressBar.Value = 0;
             alongProgressBar.Value = 0;
             afterPictureBox.Image = null;
             alongPictureBox.Image = null;
 
-            OctreeColorReducer octreeColorReducerAfterConstruction =
-                new OctreeColorReducerAfterConstruction(afterProgressBar);
-            afterPictureBox.Image = octreeColorReducerAfterConstruction.ReduceBitmap
-                (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
+            var afterPictureBoxImageTask = Task.Run(()=> {
+                OctreeColorReducer octreeColorReducerAfterConstruction =
+                    new OctreeColorReducerAfterConstruction(afterProgressBar);
+                return octreeColorReducerAfterConstruction.ReduceBitmap
+                    (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
+            });
 
-            OctreeColorReducer octreeColorReducerAlongConstruction =
-                new OctreeColorReducerAlongConstruction(alongProgressBar);
-            alongPictureBox.Image = octreeColorReducerAlongConstruction.ReduceBitmap
-                (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
+            
+
+            var alongPictureBoxImageTask = Task.Run(() =>
+            {
+                OctreeColorReducer octreeColorReducerAlongConstruction =
+                    new OctreeColorReducerAlongConstruction(alongProgressBar);
+                return octreeColorReducerAlongConstruction.ReduceBitmap
+                    (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
+            });
+            
+
+            afterPictureBox.Image = await afterPictureBoxImageTask;
+            alongPictureBox.Image = await alongPictureBoxImageTask;
         }
 
         private void chooseImageButton_Click(object sender, EventArgs e)
