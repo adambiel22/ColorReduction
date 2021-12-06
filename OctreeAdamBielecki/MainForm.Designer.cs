@@ -43,6 +43,7 @@ namespace OctreeAdamBielecki
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.numberColorNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.popularityReduceButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.alongPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trueColorPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.afterPictureBox)).BeginInit();
@@ -102,9 +103,9 @@ namespace OctreeAdamBielecki
             // 
             this.reduceButton.Location = new System.Drawing.Point(12, 538);
             this.reduceButton.Name = "reduceButton";
-            this.reduceButton.Size = new System.Drawing.Size(94, 29);
+            this.reduceButton.Size = new System.Drawing.Size(164, 29);
             this.reduceButton.TabIndex = 7;
-            this.reduceButton.Text = "Reduce";
+            this.reduceButton.Text = "Octree Reduce";
             this.reduceButton.UseVisualStyleBackColor = true;
             this.reduceButton.Click += new System.EventHandler(this.reduceButton_Click);
             // 
@@ -176,11 +177,22 @@ namespace OctreeAdamBielecki
             this.numberColorNumericUpDown.Size = new System.Drawing.Size(157, 27);
             this.numberColorNumericUpDown.TabIndex = 15;
             // 
+            // popularityReduceButton
+            // 
+            this.popularityReduceButton.Location = new System.Drawing.Point(202, 538);
+            this.popularityReduceButton.Name = "popularityReduceButton";
+            this.popularityReduceButton.Size = new System.Drawing.Size(164, 29);
+            this.popularityReduceButton.TabIndex = 16;
+            this.popularityReduceButton.Text = "Popularity Reduce";
+            this.popularityReduceButton.UseVisualStyleBackColor = true;
+            this.popularityReduceButton.Click += new System.EventHandler(this.popularityReduceButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 770);
+            this.Controls.Add(this.popularityReduceButton);
             this.Controls.Add(this.numberColorNumericUpDown);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -223,6 +235,7 @@ namespace OctreeAdamBielecki
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numberColorNumericUpDown;
+        private System.Windows.Forms.Button popularityReduceButton;
     }
 }
 

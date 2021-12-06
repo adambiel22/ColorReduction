@@ -83,9 +83,9 @@ namespace OctreeAdamBielecki.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap obrazek2 {
+        internal static System.Drawing.Bitmap Lenna {
             get {
-                object obj = ResourceManager.GetObject("obrazek2", resourceCulture);
+                object obj = ResourceManager.GetObject("Lenna", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

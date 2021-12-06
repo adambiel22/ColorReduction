@@ -25,6 +25,18 @@ namespace OctreeAdamBielecki
             trueColorPictureBox.Image = Properties.Resources.Flower;
         }
 
+        private void popularityReduceButton_Click(object sender, EventArgs e)
+        {
+            afterProgressBar.Value = 0;
+            alongProgressBar.Value = 0;
+            afterPictureBox.Image = null;
+            alongPictureBox.Image = null;
+
+            PopularityColorReducer popularityColorReducer = new PopularityColorReducer();
+            afterPictureBox.Image = popularityColorReducer.ReduceBitmap(
+                new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
+        }
+
         private void reduceButton_Click(object sender, EventArgs e)
         {
             afterProgressBar.Value = 0;
@@ -32,15 +44,16 @@ namespace OctreeAdamBielecki
             afterPictureBox.Image = null;
             alongPictureBox.Image = null;
 
+            OctreeColorReducer octreeColorReducerAlongConstruction =
+               new OctreeColorReducerAlongConstruction(alongProgressBar);
+            alongPictureBox.Image = octreeColorReducerAlongConstruction.ReduceBitmap
+                (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
+
             OctreeColorReducer octreeColorReducerAfterConstruction =
                 new OctreeColorReducerAfterConstruction(afterProgressBar);
             afterPictureBox.Image = octreeColorReducerAfterConstruction.ReduceBitmap
                 (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
 
-            OctreeColorReducer octreeColorReducerAlongConstruction =
-                new OctreeColorReducerAlongConstruction(alongProgressBar);
-            alongPictureBox.Image = octreeColorReducerAlongConstruction.ReduceBitmap
-                (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
         }
 
         private void chooseImageButton_Click(object sender, EventArgs e)
