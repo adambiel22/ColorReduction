@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace OctreeAdamBielecki
 {
@@ -11,10 +10,12 @@ namespace OctreeAdamBielecki
     {
         private int[,,] colorPallete;
         private List<(int, Color)>[] reducedPalete;
-        public PopularityColorReducer()
+        protected ProgressBar progressBar;
+        public PopularityColorReducer(ProgressBar progressBar)
         {
             colorPallete = new int[256, 256, 256];
             reducedPalete = new List<(int, Color)>[8];
+            this.progressBar = progressBar;
         }
         public Bitmap ReduceBitmap(Bitmap bitmap, int colorNumber)
         {
@@ -25,6 +26,9 @@ namespace OctreeAdamBielecki
             BitmapManager reducedBitmapManager = new LockBitmap();
             reducedBitmapManager.GetAccess(reducedBitmap);
 
+            progressBar.Maximum = 3 * bitmapManager.Height;
+            progressBar.Value = 0;
+            progressBar.Step = 1;
             //constructPalete
             for (int y = 0; y < bitmapManager.Height; y++)
             {
@@ -33,13 +37,14 @@ namespace OctreeAdamBielecki
                     Color pixel = bitmapManager.GetPixel(x, y);
                     colorPallete[pixel.R, pixel.G, pixel.B]++;
                 }
+                progressBar.PerformStep();
             }
 
-            //Reduce
             Reduce(colorNumber);
+            progressBar.Value = 2 * progressBar.Maximum / 3;
 
-            //fill redcuedBitmap
             fillReducedBitmap(bitmapManager, reducedBitmapManager);
+            progressBar.Value = progressBar.Maximum;
 
             bitmapManager.Release();
             reducedBitmapManager.Release();
@@ -55,6 +60,7 @@ namespace OctreeAdamBielecki
                     reducedBitmapManager.SetPixel(x, y,
                         findColor(bitmapManager.GetPixel(x, y)));
                 }
+                progressBar.PerformStep();
             }
         }
 

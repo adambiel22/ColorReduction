@@ -23,6 +23,8 @@ namespace OctreeAdamBielecki
             numberColorNumericUpDown.DecimalPlaces = 0;
             numberColorNumericUpDown.Value = 50;
             trueColorPictureBox.Image = Properties.Resources.Flower;
+            afterSaveButton.Enabled = false;
+            alongSaveButton.Enabled = false;
         }
 
         private void popularityReduceButton_Click(object sender, EventArgs e)
@@ -31,10 +33,14 @@ namespace OctreeAdamBielecki
             alongProgressBar.Value = 0;
             afterPictureBox.Image = null;
             alongPictureBox.Image = null;
+            afterSaveButton.Enabled = false;
+            alongSaveButton.Enabled = false;
 
-            PopularityColorReducer popularityColorReducer = new PopularityColorReducer();
+            PopularityColorReducer popularityColorReducer = new PopularityColorReducer(afterProgressBar);
             afterPictureBox.Image = popularityColorReducer.ReduceBitmap(
                 new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
+            afterSaveButton.Enabled = true;
+            alongSaveButton.Enabled = false;
         }
 
         private void reduceButton_Click(object sender, EventArgs e)
@@ -43,6 +49,8 @@ namespace OctreeAdamBielecki
             alongProgressBar.Value = 0;
             afterPictureBox.Image = null;
             alongPictureBox.Image = null;
+            afterSaveButton.Enabled = false;
+            alongSaveButton.Enabled = false;
 
             OctreeColorReducer octreeColorReducerAlongConstruction =
                new OctreeColorReducerAlongConstruction(alongProgressBar);
@@ -53,7 +61,9 @@ namespace OctreeAdamBielecki
                 new OctreeColorReducerAfterConstruction(afterProgressBar);
             afterPictureBox.Image = octreeColorReducerAfterConstruction.ReduceBitmap
                 (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
-
+            
+            afterSaveButton.Enabled = true;
+            alongSaveButton.Enabled = true;
         }
 
         private void chooseImageButton_Click(object sender, EventArgs e)
