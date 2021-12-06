@@ -97,20 +97,17 @@ namespace OctreeAdamBielecki
 
         private Color findColor(Color color)
         {
-            int r = color.R < 128 ? 0 : 1;
-            int g = color.G < 128 ? 0 : 1;
-            int b = color.B < 128 ? 0 : 1;
-
-            int i = r * 4 + g * 2 + b;
-
             double distance = double.MaxValue;
             Color foundColor = Color.White;
-            foreach(var paleteColor in reducedPalete[i])
+            for (int i = 0; i < 8; i++) 
             {
-                if (colorDistance(color, paleteColor.Item2) < distance)
+                foreach (var paleteColor in reducedPalete[i])
                 {
-                    distance = colorDistance(color, paleteColor.Item2);
-                    foundColor = paleteColor.Item2;
+                    if (colorDistance(color, paleteColor.Item2) < distance)
+                    {
+                        distance = colorDistance(color, paleteColor.Item2);
+                        foundColor = paleteColor.Item2;
+                    }
                 }
             }
             return foundColor;
