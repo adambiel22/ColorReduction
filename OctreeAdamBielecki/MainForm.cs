@@ -18,13 +18,11 @@ namespace OctreeAdamBielecki
         public MainForm()
         {
             InitializeComponent();
-            numberColorLabel.Text = colorNumberTrackBar.Value.ToString();
+            numberColorNumericUpDown.Minimum = 1;
+            numberColorNumericUpDown.Maximum = int.MaxValue;
+            numberColorNumericUpDown.DecimalPlaces = 0;
+            numberColorNumericUpDown.Value = 50;
             trueColorPictureBox.Image = Properties.Resources.Flower;
-        }
-
-        private void colorNumberTrackBar_Scroll(object sender, EventArgs e)
-        {
-            numberColorLabel.Text = colorNumberTrackBar.Value.ToString();
         }
 
         private void reduceButton_Click(object sender, EventArgs e)
@@ -37,12 +35,12 @@ namespace OctreeAdamBielecki
             OctreeColorReducer octreeColorReducerAfterConstruction =
                 new OctreeColorReducerAfterConstruction(afterProgressBar);
             afterPictureBox.Image = octreeColorReducerAfterConstruction.ReduceBitmap
-                (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
+                (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
 
             OctreeColorReducer octreeColorReducerAlongConstruction =
                 new OctreeColorReducerAlongConstruction(alongProgressBar);
             alongPictureBox.Image = octreeColorReducerAlongConstruction.ReduceBitmap
-                (new Bitmap(trueColorPictureBox.Image), colorNumberTrackBar.Value);
+                (new Bitmap(trueColorPictureBox.Image), (int)numberColorNumericUpDown.Value);
         }
 
         private void chooseImageButton_Click(object sender, EventArgs e)

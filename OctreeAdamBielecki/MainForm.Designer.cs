@@ -29,11 +29,9 @@ namespace OctreeAdamBielecki
         /// </summary>
         private void InitializeComponent()
         {
-            this.trueColorPictureBox = new System.Windows.Forms.PictureBox();
             this.alongPictureBox = new System.Windows.Forms.PictureBox();
+            this.trueColorPictureBox = new System.Windows.Forms.PictureBox();
             this.afterPictureBox = new System.Windows.Forms.PictureBox();
-            this.colorNumberTrackBar = new System.Windows.Forms.TrackBar();
-            this.numberColorLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.chooseImageButton = new System.Windows.Forms.Button();
             this.reduceButton = new System.Windows.Forms.Button();
@@ -44,11 +42,22 @@ namespace OctreeAdamBielecki
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.trueColorPictureBox)).BeginInit();
+            this.numberColorNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.alongPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trueColorPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.afterPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.colorNumberTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberColorNumericUpDown)).BeginInit();
             this.SuspendLayout();
+            // 
+            // alongPictureBox
+            // 
+            this.alongPictureBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.alongPictureBox.Location = new System.Drawing.Point(709, 407);
+            this.alongPictureBox.Name = "alongPictureBox";
+            this.alongPictureBox.Size = new System.Drawing.Size(430, 280);
+            this.alongPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.alongPictureBox.TabIndex = 1;
+            this.alongPictureBox.TabStop = false;
             // 
             // trueColorPictureBox
             // 
@@ -60,43 +69,15 @@ namespace OctreeAdamBielecki
             this.trueColorPictureBox.TabIndex = 0;
             this.trueColorPictureBox.TabStop = false;
             // 
-            // alongPictureBox
-            // 
-            this.alongPictureBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.alongPictureBox.Location = new System.Drawing.Point(709, 407);
-            this.alongPictureBox.Name = "alongPictureBox";
-            this.alongPictureBox.Size = new System.Drawing.Size(429, 217);
-            this.alongPictureBox.TabIndex = 1;
-            this.alongPictureBox.TabStop = false;
-            // 
             // afterPictureBox
             // 
             this.afterPictureBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.afterPictureBox.Location = new System.Drawing.Point(709, 32);
             this.afterPictureBox.Name = "afterPictureBox";
-            this.afterPictureBox.Size = new System.Drawing.Size(429, 271);
+            this.afterPictureBox.Size = new System.Drawing.Size(430, 280);
+            this.afterPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.afterPictureBox.TabIndex = 2;
             this.afterPictureBox.TabStop = false;
-            // 
-            // colorNumberTrackBar
-            // 
-            this.colorNumberTrackBar.Location = new System.Drawing.Point(12, 476);
-            this.colorNumberTrackBar.Maximum = 256;
-            this.colorNumberTrackBar.Minimum = 2;
-            this.colorNumberTrackBar.Name = "colorNumberTrackBar";
-            this.colorNumberTrackBar.Size = new System.Drawing.Size(353, 56);
-            this.colorNumberTrackBar.TabIndex = 3;
-            this.colorNumberTrackBar.Value = 3;
-            this.colorNumberTrackBar.Scroll += new System.EventHandler(this.colorNumberTrackBar_Scroll);
-            // 
-            // numberColorLabel
-            // 
-            this.numberColorLabel.AutoSize = true;
-            this.numberColorLabel.Location = new System.Drawing.Point(371, 476);
-            this.numberColorLabel.Name = "numberColorLabel";
-            this.numberColorLabel.Size = new System.Drawing.Size(17, 20);
-            this.numberColorLabel.TabIndex = 4;
-            this.numberColorLabel.Text = "a";
             // 
             // label2
             // 
@@ -129,7 +110,7 @@ namespace OctreeAdamBielecki
             // 
             // afterSaveButton
             // 
-            this.afterSaveButton.Location = new System.Drawing.Point(1044, 337);
+            this.afterSaveButton.Location = new System.Drawing.Point(1044, 346);
             this.afterSaveButton.Name = "afterSaveButton";
             this.afterSaveButton.Size = new System.Drawing.Size(94, 29);
             this.afterSaveButton.TabIndex = 8;
@@ -139,7 +120,7 @@ namespace OctreeAdamBielecki
             // 
             // alongSaveButton
             // 
-            this.alongSaveButton.Location = new System.Drawing.Point(1044, 658);
+            this.alongSaveButton.Location = new System.Drawing.Point(1044, 721);
             this.alongSaveButton.Name = "alongSaveButton";
             this.alongSaveButton.Size = new System.Drawing.Size(94, 29);
             this.alongSaveButton.TabIndex = 9;
@@ -149,14 +130,14 @@ namespace OctreeAdamBielecki
             // 
             // afterProgressBar
             // 
-            this.afterProgressBar.Location = new System.Drawing.Point(709, 309);
+            this.afterProgressBar.Location = new System.Drawing.Point(709, 318);
             this.afterProgressBar.Name = "afterProgressBar";
             this.afterProgressBar.Size = new System.Drawing.Size(429, 22);
             this.afterProgressBar.TabIndex = 10;
             // 
             // alongProgressBar
             // 
-            this.alongProgressBar.Location = new System.Drawing.Point(709, 630);
+            this.alongProgressBar.Location = new System.Drawing.Point(709, 693);
             this.alongProgressBar.Name = "alongProgressBar";
             this.alongProgressBar.Size = new System.Drawing.Size(429, 22);
             this.alongProgressBar.TabIndex = 11;
@@ -188,11 +169,19 @@ namespace OctreeAdamBielecki
             this.label4.TabIndex = 14;
             this.label4.Text = "True image";
             // 
+            // numberColorNumericUpDown
+            // 
+            this.numberColorNumericUpDown.Location = new System.Drawing.Point(12, 490);
+            this.numberColorNumericUpDown.Name = "numberColorNumericUpDown";
+            this.numberColorNumericUpDown.Size = new System.Drawing.Size(157, 27);
+            this.numberColorNumericUpDown.TabIndex = 15;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1154, 692);
+            this.ClientSize = new System.Drawing.Size(1228, 770);
+            this.Controls.Add(this.numberColorNumericUpDown);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
@@ -203,17 +192,16 @@ namespace OctreeAdamBielecki
             this.Controls.Add(this.reduceButton);
             this.Controls.Add(this.chooseImageButton);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.numberColorLabel);
-            this.Controls.Add(this.colorNumberTrackBar);
             this.Controls.Add(this.afterPictureBox);
             this.Controls.Add(this.alongPictureBox);
             this.Controls.Add(this.trueColorPictureBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
             this.Text = "Color reduction";
-            ((System.ComponentModel.ISupportInitialize)(this.trueColorPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.alongPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trueColorPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.afterPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.colorNumberTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberColorNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,18 +212,17 @@ namespace OctreeAdamBielecki
         private System.Windows.Forms.PictureBox trueColorPictureBox;
         private System.Windows.Forms.PictureBox alongPictureBox;
         private System.Windows.Forms.PictureBox afterPictureBox;
-        private System.Windows.Forms.TrackBar colorNumberTrackBar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button chooseImageButton;
         private System.Windows.Forms.Button reduceButton;
         private System.Windows.Forms.Button afterSaveButton;
         private System.Windows.Forms.Button alongSaveButton;
-        private System.Windows.Forms.Label numberColorLabel;
         private System.Windows.Forms.ProgressBar afterProgressBar;
         private System.Windows.Forms.ProgressBar alongProgressBar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numberColorNumericUpDown;
     }
 }
 
